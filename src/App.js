@@ -1,28 +1,61 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+// import logo from './logo.svg';
 import './App.css';
 
 function App() {
-      const nayoks = ['Anwar', 'Alomgir', 'Zafor', 'Manna']
       const products = [
         {name:"Photoshop", price: "$98.99"},
         {name:"Illastrator", price: "$76.99"},
         {name:"Lightroom", price: "$69.99"},
+        {name:"Premiere El", price: "$249.99"},
 
       ]
   return (
     <div className="App">
       <header className="App-header">
-        <Product product = {products[0]}></Product>
-        <Product product = {products[1]}></Product>
-        <Product product = {products[2]}></Product>
+      <h2>Now I'm a React Person </h2>
+    
+      <Counter></Counter>
+      <Users></Users>
 
-        <Person name = {nayoks[0]} nayika = 'Mousumi'></Person>
-        <Person name = {nayoks[1]} nayika = 'Bobita'></Person>
-        <Person name = {nayoks[2]} nayika = 'No nayika'></Person>
+      {products.map(product=><li>{product.name}</li>)}
+
+      {products.map(product => <Product product={product}></Product>)}
+     
       </header>
     </div>
   );
 }
+
+function Counter() {
+  const [count, setCount] = useState(10);
+  return(
+    <div>
+    <h1>Count : {count} </h1>
+    <button onClick={ () => setCount(count + 1)}>Increase</button>
+    <button onClick={ ()=>setCount(count -1)}>Decrease</button>
+  </div>
+  )
+}
+
+function Users() {
+  const [users, setUsers] = useState([])
+  useEffect(()=>{
+      fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(data => setUsers(data))
+  },[])
+
+  return(
+    <div>
+      <h3>Dynamic Users : {users.length}</h3>
+      <ul>
+        {users.map(user => <li>Name: {user.name}<br></br> Id: {user.id} <br></br> Emai: {user.email} <br></br> . </li>)}
+      </ul>
+    </div>
+  )
+}
+
 function Product(props) {
   const productStyle = {
     border : '1px solid gray',
@@ -44,21 +77,6 @@ function Product(props) {
 </div>
   )
  
-}
-function Person(props) {
-  const personStyle={
-    border : '2px solid red',
-    margin : '20px',
-    padding : '20px',
-    width : '400px'
-  }
-  return (
-    <div style = {personStyle}>
-      <h1>Name : {props.name} </h1>
-      <h3>Hero of  {props.nayika} </h3>
-    </div>
-  )
-  
 }
 
 export default App;
